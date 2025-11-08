@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Papelería MX</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-light">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-warning shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-dark" href="#">
+            🖊️ Papelería MX
+        </a>
+        <div class="ms-auto">
+            <a href="ventas.html" class="btn btn-dark">💰 Ver ventas</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenedor principal -->
+<main class="container py-4">
+
+    <!-- ComboBox de acciones -->
+    <div class="card shadow-sm p-4 mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8 mx-auto">
+                <label class="form-label fw-bold">Selecciona una acción</label>
+                <select id="accionSelect" class="form-select">
+                    <option value="listar">📋 Ver productos</option>
+                    <option value="agregar">➕ Agregar producto</option>
+                    <option value="modificar">✏️ Modificar producto</option>
+                    <option value="eliminar">❌ Eliminar producto</option>
+                    <option value="caracteristica">⚙️ Agregar característica</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORMULARIO PRODUCTO -->
+    <div id="formProducto" class="card p-4 mb-4 d-none">
+        <h4 id="formTitulo" class="mb-3 fw-bold text-warning">Agregar producto</h4>
+        <form id="productoForm">
+            <div id="campoId" class="mb-3 d-none">
+                <label class="form-label fw-bold">ID del producto a modificar</label>
+                <div class="input-group">
+                    <input type="text" id="productoId" class="form-control" placeholder="Ingresa el ID para modificar" />
+                    <button type="button" id="buscarBtn" class="btn btn-outline-warning">
+                        <i class="bi bi-search"></i> Buscar
+                    </button>
+                </div>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" id="nombre" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Tipo</label>
+                    <input type="text" id="tipo" class="form-control" required>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Descripción</label>
+                    <textarea id="descripcion" class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Precio</label>
+                    <input type="number" id="precio" step="0.01" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Cantidad disponible</label>
+                    <input type="number" id="cantidadDisponible" class="form-control" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success mt-3">
+                <i class="bi bi-save"></i> Guardar cambios
+            </button>
+        </form>
+    </div>
+
+    <!-- FORM ELIMINAR -->
+    <div id="formEliminar" class="card p-4 mb-4 d-none">
+        <h4 class="mb-3 fw-bold text-danger">Eliminar producto</h4>
+        <form id="eliminarForm">
+            <label class="form-label">ID del producto</label>
+            <input type="text" id="eliminarId" class="form-control mb-3" required>
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Eliminar
+            </button>
+        </form>
+    </div>
+
+    <!-- FORM CARACTERÍSTICA -->
+    <div id="formCaracteristica" class="card p-4 mb-4 d-none">
+        <h4 class="mb-3 fw-bold text-warning">Agregar característica</h4>
+        <form id="caracteristicaForm">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">ID del producto</label>
+                    <input type="text" id="caracId" class="form-control" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Clave</label>
+                    <input type="text" id="clave" class="form-control" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Valor</label>
+                    <input type="text" id="valor" class="form-control" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-info mt-3 text-white">
+                <i class="bi bi-plus-circle"></i> Agregar
+            </button>
+        </form>
+    </div>
+
+    <!-- TABLA PRODUCTOS -->
+    <div id="tablaSection" class="card shadow-sm p-3">
+        <h4 class="fw-bold text-warning mb-3">📦 Lista de productos</h4>
+        <div class="table-responsive">
+            <table class="table table-striped align-middle" id="tablaProductos">
+                <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Características</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<!-- Modal de venta -->
+<div class="modal fade" id="ventaModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title fw-bold text-dark">💸 Realizar venta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="ventaForm">
+                    <input type="hidden" id="ventaProductoId">
+                    <p><strong>Producto:</strong> <span id="ventaProductoNombre"></span></p>
+                    <p><strong>Precio unitario:</strong> $<span id="ventaProductoPrecio"></span></p>
+                    <div class="mb-3">
+                        <label class="form-label">Cantidad a vender</label>
+                        <input type="number" id="cantidadVenta" class="form-control" min="1" required>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">✅ Confirmar venta</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center py-3 mt-4 bg-warning text-dark fw-bold">
+    © 2025 Papelería MX
+</footer>
+
+<script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
