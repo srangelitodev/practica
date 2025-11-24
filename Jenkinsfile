@@ -22,9 +22,6 @@ pipeline {
         }
 
         stage("Deploy a EC2") {
-            when {
-                branch 'main'
-            }
             steps {
                 sshPut remote: remote,
                         from: "${env.WORKSPACE}/",
