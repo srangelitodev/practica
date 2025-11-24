@@ -29,7 +29,7 @@ pipeline {
 
                 sshCommand remote: remote, command: '''
                     sudo rm -rf /usr/share/nginx/html/*
-                    sudo cp -r /home/ec2-user/deploy-temp/* /usr/share/nginx/html/
+                    sudo cp -r /home/ec2-user/deploy-temp/XD/* /usr/share/nginx/html/
                     sudo chown -R nginx:nginx /usr/share/nginx/html/
                     sudo systemctl reload nginx
                 '''
