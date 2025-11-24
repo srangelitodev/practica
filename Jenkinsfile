@@ -24,7 +24,7 @@ pipeline {
         stage("Deploy a EC2") {
             steps {
                 sshPut remote: remote,
-                        from: "${env.WORKSPACE}/.",
+                        from: "${env.WORKSPACE}/*",
                         into: "/home/ec2-user/deploy-temp/"
 
                 sshCommand remote: remote, command: '''
